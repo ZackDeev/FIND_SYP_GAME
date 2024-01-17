@@ -3,7 +3,6 @@ import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { globalStyles } from '../../style/globalStyles';
-import { useDispatch } from 'react-redux';
 
 
 const ButtonStart = ({viewName}) => {

@@ -4,6 +4,8 @@ import { ADD, BG_PLAYER_CARD } from '../../constants/Constant';
 import { globalStyles } from '../../style/globalStyles';
 import { Entypo } from '@expo/vector-icons';
 
+import { responsiveWidth , responsiveHeight } from 'react-native-responsive-dimensions'
+
 
 
 const PlayerCard = ({player , image , icon }) => {
@@ -22,8 +24,8 @@ export default PlayerCard;
 
 const styles = StyleSheet.create({
   container: {
-    width: 110,
-    height: 120,
+    width: responsiveWidth(27),
+    height: responsiveHeight(13),
     marginHorizontal: 16,
     justifyContent: 'center',
     alignItems: 'center',

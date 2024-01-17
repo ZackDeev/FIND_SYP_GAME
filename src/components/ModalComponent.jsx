@@ -1,27 +1,24 @@
 import React, { useState, useRef } from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View , Button} from 'react-native';
-import { HEIGHT, WIDTH } from '../constants/Constant';
 
-import { MaterialIcons ,Ionicons } from '@expo/vector-icons'; 
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from "react-native-responsive-dimensions";
+
+import { useNavigation } from '@react-navigation/native'
+
+
+import { MaterialIcons  } from '@expo/vector-icons'; 
 import { globalStyles } from '../style/globalStyles';
+import { useDispatch } from 'react-redux';
+import { isTimeUpFuction } from '../redux/slices/timerSlice';
+import { cleanGameListWords } from '../redux/slices/setOfWordSlice';
 
-const WarningModal = ({modalVisible,setModalVisible}) => {
+const ModalComponent = ({modalVisible,setModalVisible}) => {
 
-    const pickerRef = useRef();
-  
-  
-    const handleButtonPress = () => {
-      const selectedValue = pickerRef.current.props.selectedValue;
-
-      setModalVisible(false);
-  
-      if (selectedValue !== '00') {
-  
-        dispatch(handleTimePicker(selectedValue))
-      } else {
-        console.warn('Please select a minute before confirming.');
-      }
-    };
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <View>
@@ -36,27 +33,24 @@ const WarningModal = ({modalVisible,setModalVisible}) => {
       <View style={styles.container}>
         <View style={styles.model}>
           <View>
-          <Text style={[globalStyles.title,{alignSelf: 'center'}]}>Select Minute</Text>
-  
+          <Text style={globalStyles.largeTitle}>Time is Up</Text>
           </View>
 
           {/* CONFIRM AND DELETE BUTTONS */}
           <View style={{flexDirection: 'row' , justifyContent: 'space-around'}}>
-          <Pressable
-              onPress={handleButtonPress}
-              style={[styles.btnModal,{backgroundColor:'#22C55E'}]}>
-                <Ionicons name="close" size={24} color="white" />
-                <Text style={globalStyles.subTitle}>Confirm</Text>
-            </Pressable>
             <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => {
+                  setModalVisible(!modalVisible),
+                  navigation.navigate('SettingsView'),
+                  dispatch(isTimeUpFuction(false))  ,
+                  dispatch(cleanGameListWords())
+                }}
               style={[styles.btnModal,{backgroundColor:'#FF4500'}]}>
                 <MaterialIcons name="done" size={24} color="white" />
-                <Text style={globalStyles.subTitle}>Close</Text>
+                <Text style={globalStyles.title}>Begin a new round</Text>
             </Pressable>
           </View>
         </View>
-
       </View>
     </Modal>
   </View>
@@ -65,7 +59,7 @@ const WarningModal = ({modalVisible,setModalVisible}) => {
 
 
 
-export default WarningModal
+export default ModalComponent
 
 const styles = StyleSheet.create({
     container: {
@@ -75,24 +69,28 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
       },
       model: {
-        width: WIDTH / 1.1,
-        height: HEIGHT / 1.9,
+        width: responsiveWidth(90),
+        height: responsiveHeight(40),
         backgroundColor: '#4B3F91', // Semi-transparent background
         borderRadius: 20,
         paddingHorizontal: 10,
         paddingVertical: 20,
-        justifyContent: 'space-around',
+        justifyContent: 'center',
+        gap: responsiveHeight(5),
         borderWidth: 1.2,
         borderColor: 'white'
       },
       btnModal: {
         alignItems: 'center', 
         paddingHorizontal: 24, 
+        flexDirection: 'row',
         paddingVertical: 4 ,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: 'white',
-
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        gap: 8,
          // Shadow properties for iOS
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },

@@ -5,6 +5,12 @@ import { globalStyles } from '../../style/globalStyles';
 import { useDispatch } from 'react-redux';
 import { selectKeyWord } from '../../redux/slices/setOfWordSlice';
 
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize,
+} from "react-native-responsive-dimensions";
+
 const WordCard = ({word}) => {
   const dispatch = useDispatch()
   return (
@@ -21,16 +27,16 @@ export default WordCard;
 
 const styles = StyleSheet.create({
     container: {
-        width: WIDTH / 1.6,
-        height: 60,
-        marginHorizontal: 10,
+        width: responsiveWidth(62),
+        height: responsiveHeight(7),
+        marginHorizontal: 8,
         justifyContent: 'center',
         alignItems: 'center'
     
     },
     bgSetWord:{
-        width: WIDTH / 1.6,
-        height: 60,
+        width: responsiveWidth(62),
+        height: responsiveHeight(7),
         position: 'absolute'
     },
   })

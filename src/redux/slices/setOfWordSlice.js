@@ -8,6 +8,7 @@ const initialState = {
   errorMessage: null,
   keyWordSelected: null,
   generateKeywordsList: [],
+  isSelected: false,
   }
 
   export const setOfWordSlice = createSlice({
@@ -44,7 +45,13 @@ const initialState = {
         },
         pushGameListWords: (state,action)=>{
           state.generateKeywordsList.push(...action.payload)
-        }
+        },
+        cleanGameListWords: (state,action)=>{
+          state.generateKeywordsList = []
+        },
+        isSelectedKeyword: (state,action)=>{
+          state.isSelected = action.payload
+        },
     },
   });
 
@@ -54,6 +61,8 @@ const initialState = {
     deleteWordById,
     selectKeyWord,
     pushGameListWords,
+    cleanGameListWords,
+    isSelectedKeyword,
 
     } = setOfWordSlice.actions;
 

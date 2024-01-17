@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BG_INTRO, HEIGHT, SPY_LOGO, WIDTH, orange_color } from '../constants/Constant'
 
 import {  GestureDetector ,Gesture } from 'react-native-gesture-handler';
@@ -10,12 +10,25 @@ import { globalStyles } from '../style/globalStyles';
 import { useSelector } from 'react-redux';
 
 
-const CardComponent = ({keyword, numOfcards, index, activeIndex }) => {
+const CardComponent = ({
+        keyword, 
+        numOfcards, 
+        index, 
+        activeIndex ,
+
+    }) => {
 
     const translationX = useSharedValue(0)
 
+
     const [displayCard,setDispalyCard] = useState(false)
+
+    const [bool,setBool] = useState(false)
+
+    
     const { keyWordSelected } =  useSelector((state)=>state.words)
+
+    
 
     const animatedCard = useAnimatedStyle(()=>({
         opacity: interpolate(
@@ -54,37 +67,47 @@ const CardComponent = ({keyword, numOfcards, index, activeIndex }) => {
             [0, 500],
             [index, index + 0.8]
             );
-
-            
-    })
+        })
     .onFinalize((e)=>{
-        if(activeIndex.value + 1 === numOfcards){
-            console.log("Find the Spy")
+        // try {
+        //     if (activeIndex.value + 1 === numOfcards) {
+        //       console.log("Finish sweeping all cards");
+        //       handleCardSweep(index) // Call the callback with true when sweeping finishes
+        //     }
+        //   } catch (error) {
+        //     console.error("Error in onFinalize:", error);
+        //   }
 
-            console.log(translationX.value)
-        }
+    
     })
     .onChange((e)=>(
       translationX.value = e.translationX 
     ))
     .onEnd((e)=>{
 
-     if(displayCard === true){
-        if(Math.abs(e.velocityX) < 10 ){
+        if(Math.abs(e.velocityX) > 400 ) {
             translationX.value = withSpring(
               Math.sign(e.velocityX) * 500,
               {
                 velocity: e.velocityX,
+            });
+
+    //  if(displayCard === true){
+    //     if(Math.abs(e.velocityX) < 10 ){
+    //         translationX.value = withSpring(
+    //           Math.sign(e.velocityX) * 500,
+    //           {
+    //             velocity: e.velocityX,
     
-            });
-     } else {
-        if(Math.abs(e.velocityX) > 440 ) {
-            translationX.value = withSpring(
-              Math.sign(e.velocityX) * 500,
-              {
-                velocity: e.velocityX,
-            });
-     }}
+    //         });
+    //  } else {
+    //     if(Math.abs(e.velocityX) > 440 ) {
+    //         translationX.value = withSpring(
+    //           Math.sign(e.velocityX) * 500,
+    //           {
+    //             velocity: e.velocityX,
+    //         });
+    //  }}
 
         activeIndex.value = withSpring( index + 1)
       }else{

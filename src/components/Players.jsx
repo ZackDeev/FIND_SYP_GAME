@@ -8,8 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 
 
 import { fetchAllPlayers } from '../redux/slices/playerSlice'
-
-
+import { responsiveHeight } from 'react-native-responsive-dimensions'
 
 const Players = () => {
 
@@ -58,7 +57,7 @@ export default Players;
 const styles = StyleSheet.create({
     container: {
       width: WIDTH,
-      height: 120,
+      height: responsiveHeight(13),
     },
     bgPlayer:{
     
